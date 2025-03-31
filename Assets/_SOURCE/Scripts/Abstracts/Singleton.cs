@@ -10,17 +10,8 @@ public class Singleton<T> : MonoBehaviour where T : Component
     {
         get
         {
-            if (_instance == null)
-            {
-                _instance = FindFirstObjectByType<T>();
-
-                if (_instance == null)
-                {
-                    GameObject gameObject = new GameObject();
-                    gameObject.name = typeof(T).Name;
-                    _instance = gameObject.AddComponent<T>();
-                }
-            }
+            if (!_instance)
+                _instance = FindAnyObjectByType<T>();
 
             return _instance;
         }
@@ -28,16 +19,18 @@ public class Singleton<T> : MonoBehaviour where T : Component
 
     protected virtual void Awake()
     {
+        var instance = this as T;
+        
         if (_instance == null)
         {
-            _instance = this as T;
+            _instance = instance;
 
             if (DontDestroy)
-                DontDestroyOnLoad(this.gameObject);
+                DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (_instance != instance)
         {
-            Destroy(gameObject);
+             Destroy(gameObject);
         }
 
         if (transform.parent)

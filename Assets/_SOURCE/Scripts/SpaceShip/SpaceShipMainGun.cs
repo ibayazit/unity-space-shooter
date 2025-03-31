@@ -7,7 +7,7 @@ public class SpaceShipMainGun : MonoBehaviour
 
     private void Start()
     {
-        defaultBullet.InstantiatePool(20, gameObject);
+        defaultBullet.InstantiatePool(20, null);
 
         StartCoroutine(SpawnBullet());
     }
@@ -19,7 +19,8 @@ public class SpaceShipMainGun : MonoBehaviour
 
     private void OnDisable()
     {
-        GameManager.Instance.OnGamePaused -= OnGamePaused;
+        if (GameManager.Instance)
+            GameManager.Instance.OnGamePaused -= OnGamePaused;
     }
 
     private void OnGamePaused(bool isPaused)

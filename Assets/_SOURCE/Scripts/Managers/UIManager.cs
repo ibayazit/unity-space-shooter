@@ -16,7 +16,8 @@ public class UIManager : Singleton<UIManager>
 
     private void OnDisable()
     {
-        GameManager.Instance.OnGamePaused -= OnGamePaused;
+        if(GameManager.Instance) 
+            GameManager.Instance.OnGamePaused -= OnGamePaused;
     }
 
     private void OnGamePaused(bool isPaused)

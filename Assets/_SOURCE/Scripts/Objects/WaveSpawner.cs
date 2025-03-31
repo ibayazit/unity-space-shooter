@@ -8,7 +8,7 @@ public class WaveSpawner : MonoBehaviour
 
     private void Start()
     {
-        block.InstantiatePool(20, gameObject);
+        block.InstantiatePool(20, transform);
 
         if (GameManager.Instance.isGamePaused)
         {
@@ -23,7 +23,8 @@ public class WaveSpawner : MonoBehaviour
 
     private void OnDisable()
     {
-        GameManager.Instance.OnGamePaused -= OnGamePaused;
+        if (GameManager.Instance)
+            GameManager.Instance.OnGamePaused -= OnGamePaused;
     }
 
     private void OnGamePaused(bool isPaused)

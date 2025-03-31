@@ -4,24 +4,23 @@ using UnityEngine;
 public class CustomObjectPool<T> : MonoBehaviour where T : Component
 {
     private Queue<T> _pool = new();
-    private GameObject parent = null;
+    private Transform _parent = null;
 
     private void EnlargePool()
     {
         T newObject = Instantiate(this as T, Vector3.zero, Quaternion.identity);
         newObject.gameObject.SetActive(false);
 
-        if (parent)
-        {
-            newObject.transform.SetParent(parent.transform);
-        }
+
+        newObject.transform.SetParent(_parent);
+
 
         _pool.Enqueue(newObject);
     }
 
-    public void InstantiatePool(int poolSize, GameObject _parent)
+    public void InstantiatePool(int poolSize, Transform parent)
     {
-        parent = _parent;
+        _parent = parent;
 
         for (int i = 0; i < poolSize; i++)
         {
